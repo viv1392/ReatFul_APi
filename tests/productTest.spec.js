@@ -1,6 +1,6 @@
 const{test,expect}=require('../fixture/FixtureTest');
 const{SchemaValidator }=require('../utils/SchemaValidation');
-const{productSchema}=require('../schema/productSchema');
+const {productSchema }= require('../schema/productSchema');
 const{ productPayload}=require('../utils/testData');
 
     test.describe.serial('Rest Api Test',()=>{
@@ -12,10 +12,11 @@ const{ productPayload}=require('../utils/testData');
        expect(response.status()).toBe(200);
        expect(response.ok()).toBeTruthy();
        const responsebody= await response.json();
+       console.log('posted data',responsebody);
        iD=responsebody.id
        console.log(responsebody);
        expect(responsebody).toHaveProperty('id', iD); 
-       validator.validateSchema(productSchema,payLoad);
+       validator.validateSchema(productSchema,responsebody);
 
           
     });
@@ -46,6 +47,8 @@ const{ productPayload}=require('../utils/testData');
         const response=await userApi.updateData(iD,updatedpayload);
         expect(response.ok()).toBeTruthy();
         expect(response.status()).toBe(200);
+        const data=await response.json();
+        validator.validateSchema(productSchema,data);
         
 
         }
@@ -57,7 +60,17 @@ const{ productPayload}=require('../utils/testData');
         expect(response.status()).toBe(200);
         const Data= await response.json();
         console.log('Delete message: ', Data);
+        validator.validateSchema(productSchema,Data);
         }
+    })
+    test.afterAll('User Clen Up',async({userApi})=>{
+        try{
+       await userApi.deleteData(iD);
+        }
+        catch(err){
+         console.log("User already deleted, cleanup skipped.");
+        }
+       await userApi.disposeApi();      
     })
 
 });

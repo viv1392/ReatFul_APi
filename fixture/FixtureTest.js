@@ -1,12 +1,11 @@
 
-const { expect } = require('playwright/test');
+const { test: baseTest, expect } = require('@playwright/test');
 const { userApi } = require('../UserApi/userAPI');
-const base=require('@playwright/test').test;
 
-   const test=base.extend({
-     userApi:async({request},use)=>{
-             await use(new userApi(request))
-                                  }
+const test = baseTest.extend({
+  userApi: async ({ request }, use) => {
+    await use(new userApi(request));
+  },
+});
 
-   });
-   module.exports={test,expect};
+module.exports = { test, expect };

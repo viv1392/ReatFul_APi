@@ -7,7 +7,7 @@ function productPayload() {
       "CPU model": "Intel Core i9",
       "Hard disk size": "1 TB"
     }
-  };
+  }
 }
 
 module.exports = { productPayload };
