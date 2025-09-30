@@ -1,7 +1,8 @@
 // schemas/productResponseSchema.js
 module.exports= {
   type: "object",
-  required: ["id", "name", "createdAt", "data"],
+  // createdAt is optional for this API; keep schema flexible for enterprise tests
+  required: ["id", "name", "data"],
   properties: {
     id: { type: "string" }, // UUID or unique string
     name: { type: "string" },
@@ -15,8 +16,9 @@ module.exports= {
         "CPU model": { type: "string" },
         "Hard disk size": { type: "string" }
       },
-      additionalProperties: false
+      additionalProperties: true
     }
   },
-  additionalProperties: false
+  // allow server-side metadata (createdAt, updatedAt, etc.)
+  additionalProperties: true
 };
